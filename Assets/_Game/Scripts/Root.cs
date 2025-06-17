@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Root : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Root instance;
+    public UIManager uiManager;
+    public LevelManager levelManager;
+    private void Awake()
     {
-        
+        if (instance != null)
+        {
+            Destroy(gameObject);          
+        }
+        else
+        {
+            instance = this;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
