@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
     public Transform gridParent;
     public GridLayoutGroup gridLayoutGroup;
     public int count;
+
+    public List<Sprite> availableImages; // your list of possible images
     // Start is called before the first frame update
     void Start()
     {
@@ -32,30 +34,33 @@ public class LevelManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        // Create pairs (count must be even)
         int pairCount = count / 2;
-        List<int> cardIDs = new List<int>();
+        List<Sprite> cardImages = new List<Sprite>();
 
+        // Repeat photos if needed
         for (int i = 0; i < pairCount; i++)
         {
-            cardIDs.Add(i);
-            cardIDs.Add(i);
+            int imageIndex = i % availableImages.Count;
+            Sprite image = availableImages[imageIndex];
+
+            cardImages.Add(image); // first copy
+            cardImages.Add(image); // second copy
         }
 
         // Shuffle
-        for (int i = 0; i < cardIDs.Count; i++)
+        for (int i = 0; i < cardImages.Count; i++)
         {
-            int temp = cardIDs[i];
-            int randomIndex = Random.Range(i, cardIDs.Count);
-            cardIDs[i] = cardIDs[randomIndex];
-            cardIDs[randomIndex] = temp;
+            Sprite temp = cardImages[i];
+            int randomIndex = Random.Range(i, cardImages.Count);
+            cardImages[i] = cardImages[randomIndex];
+            cardImages[randomIndex] = temp;
         }
 
-        // Instantiate
-        for (int i = 0; i < cardIDs.Count; i++)
+        // Instantiate cards
+        for (int i = 0; i < cardImages.Count; i++)
         {
             GameObject card = Instantiate(cardPrefab, gridParent);
-            //card.GetComponent<Card>().SetID(cardIDs[i]); // You can define how your Card script handles this
+            card.GetComponent<Card>().SetImage(cardImages[i]);
         }
 
         AdjustGridLayout(count);
