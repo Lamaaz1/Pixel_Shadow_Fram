@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
+    public WinPanelController WinPanel;
     [SerializeField] GameObject StartPanel;
     [SerializeField] GameObject PlayPanel;
     [SerializeField] TextMeshProUGUI MatchesText;
@@ -21,6 +23,7 @@ public class UIManager : MonoBehaviour
     {
         StartPanel.SetActive(true);
         PlayPanel.SetActive(false);
+        WinPanel.gameObject.SetActive(false);
         ResetNumbers();
     }
     // Update is called once per frame

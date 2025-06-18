@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    public Toggle[] levelToggles;
+    private int currentLevelIndex;
     public GameObject cardPrefab;
     public Transform gridParent;
     public GridLayoutGroup gridLayoutGroup;
@@ -14,9 +16,55 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        init();
     }
+    public void init()
+    {
+        for (int i = 0; i < levelToggles.Length; i++) 
+        {
+            levelToggles[i].GetComponent<DificultyButton>().LevelIndex = i;
+        }
+     
+        LoadLevel();
+    }
+    public void LoadLevel()
+    {
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel", 0);
 
+        // First reset all toggles
+        for (int i = 0; i < levelToggles.Length; i++)
+        {
+            levelToggles[i].isOn = false;
+        }
+
+        // Set correct toggle ON
+        levelToggles[currentLevel].isOn = true;
+        //levelToggles[currentLevel].GetComponent<DificultyButton>().LoadL();
+
+
+        // Force trigger event
+        levelToggles[currentLevel].onValueChanged.Invoke(true);
+    }
+    public void NextLevel()
+    {
+        if (PlayerPrefs.GetInt("CurrentLevel") < levelToggles.Length - 1)
+        {
+            // Increase level
+            int newLevel = PlayerPrefs.GetInt("CurrentLevel") + 1;
+            PlayerPrefs.SetInt("CurrentLevel", newLevel);
+            PlayerPrefs.Save();
+
+            // Reset all toggles
+            for (int i = 0; i < levelToggles.Length; i++)
+            {
+                levelToggles[i].isOn = false;
+            }
+
+            // Activate new level toggle
+            levelToggles[newLevel].isOn = true;
+            levelToggles[newLevel].onValueChanged.Invoke(true);  // Force trigger if needed
+        }
+    }
     // Update is called once per frame
     void Update()
     {

@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class DificultyButton : MonoBehaviour
 {
     Toggle toggle;
-    public Vector2 CellSize;
+    public int LevelIndex;
     public int CellsNumber;
-    public int ClmnsNumber;
+    
     private void Start()
     {
         toggle = GetComponent<Toggle>();
@@ -18,8 +18,8 @@ public class DificultyButton : MonoBehaviour
     {
         if (isOn)
         {
-            Root.instance.levelManager.CountModify(CellsNumber);
-            Root.instance.levelManager.CreateCards();
+            LoadL();
+            PlayerPrefs.SetInt("CurrentLevel", LevelIndex);
 
         }
         else
@@ -27,5 +27,9 @@ public class DificultyButton : MonoBehaviour
             
         }
     }
-
+    public void LoadL()
+    {
+        Root.instance.levelManager.CountModify(CellsNumber);
+        Root.instance.levelManager.CreateCards();
+    }
 }

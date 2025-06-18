@@ -44,5 +44,10 @@ public class Card : MonoBehaviour
         //addTurn
         Root.instance.uiManager.AddTurn();
     }
+    public void matched()
+    {
+        frontImage.gameObject.SetActive(false );
+        GetComponent<Image>().enabled = false;
+    }
 
 }

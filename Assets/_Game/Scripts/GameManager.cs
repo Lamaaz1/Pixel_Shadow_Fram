@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
         if (revealedCards[0].frontImage.sprite == revealedCards[1].frontImage.sprite)
         {
+            revealedCards[0].matched();
+            revealedCards[1].matched();
             // It's a match!
             matchedPairs++;
             Root.instance.uiManager.AddMatch();
@@ -36,7 +38,9 @@ public class GameManager : MonoBehaviour
             if (matchedPairs >= totalPairs)
             {
                 Debug.Log("YOU WIN!");
-                // You can show win panel, animation, sound, etc.
+                Root.instance.uiManager.WinPanel.ShowWinPanel();
+                Root.instance.levelManager.NextLevel();
+                // show win panel, animation, sound, etc.
             }
         }
         else
