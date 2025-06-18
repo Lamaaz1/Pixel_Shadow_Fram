@@ -5,6 +5,7 @@ using UnityEngine;
 public class Root : MonoBehaviour
 {
     public static Root instance;
+    public  GameManager gameManager;
     public UIManager uiManager;
     public LevelManager levelManager;
     private void Awake()

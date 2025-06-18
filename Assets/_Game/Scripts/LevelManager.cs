@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     public Transform gridParent;
     public GridLayoutGroup gridLayoutGroup;
     public int count;
-
+    public float StartShowTime=2f;
     public List<Sprite> availableImages; // your list of possible images
     // Start is called before the first frame update
     void Start()
@@ -65,24 +65,7 @@ public class LevelManager : MonoBehaviour
 
         AdjustGridLayout(count);
     }
-    //void AdjustGridLayout(int totalCards)
-    //{
-    //    int rows = Mathf.CeilToInt(Mathf.Sqrt(totalCards));
-    //    int columns = Mathf.CeilToInt((float)totalCards / rows);
-
-    //    // Get panel size
-    //    RectTransform rt = gridParent.GetComponent<RectTransform>();
-    //    float panelWidth = rt.rect.width;
-    //    float panelHeight = rt.rect.height;
-
-    //    float spacing = gridLayoutGroup.spacing.x;
-    //    float cellWidth = (panelWidth - ((columns - 1) * spacing)) / columns;
-    //    float cellHeight = (panelHeight - ((rows - 1) * spacing)) / rows;
-
-    //    gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-    //    gridLayoutGroup.constraintCount = columns;
-    //    gridLayoutGroup.cellSize = new Vector2(cellWidth, cellHeight);
-    //}
+ 
     void AdjustGridLayout(int totalCards)
     {
         List<(int columns, int rows)> possibleGrids = new List<(int columns, int rows)>();
@@ -140,6 +123,39 @@ public class LevelManager : MonoBehaviour
         gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
 
         Debug.Log($"Grid picked: {bestColumns} columns x {bestRows} rows");
+    }
+    public void StartGame()
+    {
+        StartCoroutine(StartGameRoutine());
+    }
+
+    IEnumerator StartGameRoutine()
+    {
+        // Step 1: Hide all cards
+        foreach (Card card in gridParent.GetComponentsInChildren<Card>())
+        {
+            card.SetHidden();
+        }
+
+        // Step 2: Wait 1 second
+        yield return new WaitForSeconds(0.3f);
+
+        // Step 3: Show all cards
+        foreach (Card card in gridParent.GetComponentsInChildren<Card>())
+        {
+            card.SetRevealed();
+        }
+
+        // Step 4: Wait 2 seconds
+        yield return new WaitForSeconds(StartShowTime);
+
+        // Step 5: Hide all cards again — player can start
+        foreach (Card card in gridParent.GetComponentsInChildren<Card>())
+        {
+            card.SetHidden();
+        }
+
+        Debug.Log("Player can start now!");
     }
 
 }
