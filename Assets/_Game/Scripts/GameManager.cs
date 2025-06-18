@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
                 second.matched();
                 matchedPairs++;
                 Root.instance.uiManager.AddMatch();
-
+                Root.instance.soundManager.PlayMatchSound();
                 Debug.Log("Match! Total matched: " + matchedPairs + " / " + totalPairs);
 
                 if (matchedPairs >= totalPairs)
@@ -54,10 +54,12 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                Root.instance.soundManager.PlayFailSound();
                 // Flip back after a small delay for player to see
                 yield return new WaitForSeconds(0.5f);
                 first.SetHidden();
                 second.SetHidden();
+               
             }
         }
 

@@ -28,10 +28,9 @@ public class Card : MonoBehaviour
 
     public void SetRevealed()
     {
+        Root.instance.soundManager.PlayFlipSound();
         StartCoroutine(FlipCoroutine());
-        //frontImage.gameObject.SetActive(true);
-        //isRevealed = true;
-        ////backImage.gameObject.SetActive(false);
+       
     }
     IEnumerator FlipCoroutine()
     {

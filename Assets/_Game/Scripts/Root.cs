@@ -8,6 +8,7 @@ public class Root : MonoBehaviour
     public  GameManager gameManager;
     public UIManager uiManager;
     public LevelManager levelManager;
+    public SoundManager soundManager;
     private void Awake()
     {
         if (instance != null)
