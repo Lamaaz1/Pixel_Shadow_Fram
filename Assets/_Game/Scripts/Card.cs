@@ -36,10 +36,13 @@ public class Card : MonoBehaviour
     public void OnCardClicked()
     {
         if (isRevealed) return; // already revealed → do nothing
+        if (!Root.instance.gameManager.StartPlay) return; // already revealed → do nothing
         SetRevealed();
 
         // Tell the GameManager that this card was clicked
         Root.instance.gameManager.OnCardRevealed(this);
+        //addTurn
+        Root.instance.uiManager.AddTurn();
     }
 
 }

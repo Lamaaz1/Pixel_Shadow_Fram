@@ -62,7 +62,8 @@ public class LevelManager : MonoBehaviour
             GameObject card = Instantiate(cardPrefab, gridParent);
             card.GetComponent<Card>().SetImage(cardImages[i]);
         }
-
+        Root.instance.gameManager.UpdateCards(count, 0);
+        Root.instance.uiManager.ResetNumbers();
         AdjustGridLayout(count);
     }
  
@@ -154,7 +155,7 @@ public class LevelManager : MonoBehaviour
         {
             card.SetHidden();
         }
-
+        Root.instance.gameManager.StartPlay=true;
         Debug.Log("Player can start now!");
     }
 

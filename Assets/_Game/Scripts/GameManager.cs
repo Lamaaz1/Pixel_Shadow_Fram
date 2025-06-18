@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool StartPlay;
+    public bool StartPlay=false;
     public List<Card> revealedCards = new List<Card>();
+    public int totalPairs;
+    public int matchedPairs;
 
     public void OnCardRevealed(Card card)
     {
@@ -20,12 +22,22 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CheckMatch()
     {
-        yield return new WaitForSeconds(0.5f); // short pause
+        yield return new WaitForSeconds(0.2f); // short pause
 
         if (revealedCards[0].frontImage.sprite == revealedCards[1].frontImage.sprite)
         {
-            // It's a match — keep revealed!
-            Debug.Log("Match!");
+            // It's a match!
+            matchedPairs++;
+            Root.instance.uiManager.AddMatch();
+
+            Debug.Log("Match! Total matched: " + matchedPairs + " / " + totalPairs);
+
+            // Check if player won
+            if (matchedPairs >= totalPairs)
+            {
+                Debug.Log("YOU WIN!");
+                // You can show win panel, animation, sound, etc.
+            }
         }
         else
         {
@@ -35,5 +47,10 @@ public class GameManager : MonoBehaviour
         }
 
         revealedCards.Clear();
+    }
+    public void UpdateCards(int _total,int _matched)
+    {
+        totalPairs = _total / 2;
+        matchedPairs = _matched;
     }
 }
