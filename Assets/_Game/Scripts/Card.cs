@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -83,8 +84,12 @@ public class Card : MonoBehaviour
 
     public void matched()
     {
-        frontImage.gameObject.SetActive(false );
-        GetComponent<Image>().enabled = false;
+        gameObject.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .4f).OnComplete(() =>
+        {
+            frontImage.gameObject.SetActive(false );
+            GetComponent<Image>().enabled = false;
+        });
+      
     }
 
 }
